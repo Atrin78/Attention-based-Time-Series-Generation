@@ -11,7 +11,7 @@ In the generator architecture, a self-attention module is inserted in the middle
 
 The transformer is pre-trained using the MSE loss. The loss that is used for the training of the rest of the network consists of three terms. The first term forces the moments of the <img src="https://latex.codecogs.com/gif.latex?\hat{x}" /> batch to be the same as the <img src="https://latex.codecogs.com/gif.latex?x" /> batch. The second term is the WGAN-GP loss and the third is an MSE loss between <img src="https://latex.codecogs.com/gif.latex?\hat{x}" /> and its reconstruction by the transformer which is named <img src="https://latex.codecogs.com/gif.latex?x^*" />. Since the transformer is pre-trained with the training data, it forces <img src="https://latex.codecogs.com/gif.latex?\hat{x}" /> to exhibit the same dynamic behaviour as the real data. This loss is minimized by the generator and maximized by the discriminator (which actually only maximizes the WGAN-GP loss).
 
-![loss](/images/loss.png)
+![loss](/images/loss.png | width=50)
 *The GAN loss.*
 
 ## Running the code

@@ -16,23 +16,10 @@ The transformer is pre-trained using the MSE loss. The loss that is used for the
 
 ## Running the code
 
-
-Having cloned the repository, you can reproduce our results:
-
-### 1. L-inf model:
-
-If you want to use the pre-trained models, skip to [this section](https://github.com/rohban-lab/Salehi_submitted_2020#testing).
-
-#### Preparing the data
-
-At first, run prepare.py to prepare the data. The first argument to be passed is the dataset name. You may choose between fashion_mnist, mnist, and coil100.  For mnist and fashion_mnist, the next argument is the chosen protocol to prepare the data. For this argument, you may choose between p1 and p2. If p2 is chosen, the next argument is the normal class number. Otherwise, the next argument is the anomaly percentage. Then you have to pass the class number.
-
-Here are two examples for mnist and fashion_mnist datasets:
+First, put your training data alongside with its padding mask in the data folder. The data path settings can be modified in the main.py file. The synthetic data will be generated using the code below.
 
 ```
-python3 prepare.py mnist p1 0.5 8
+python3 main.py
 ```
-```
-python3 prepare.py fashion_mnist p2 2
-```
+
 

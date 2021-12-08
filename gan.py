@@ -151,8 +151,48 @@ def generate_samples(ori_data):
       X_tilde1 = final(x)
 
     return X_tilde1
-    
 
+  def generator(Z, T):
+    """Generator function: Generate time-series data. (together with the supervisor function)
+
+    Args:
+      - Z: random variables
+      - T: input time information
+
+    Returns:
+      - x: pre-generated data
+    """
+    with tf.variable_scope("generator", reuse=tf.AUTO_REUSE):
+      # RNN network
+      e_cell = tf.nn.rnn_cell.MultiRNNCell([rnn_cell(module_name, hidden_dim) for _ in range(2)])
+      e_outputs, e_last_states = tf.nn.dynamic_rnn(e_cell, Z, dtype=tf.float32, sequence_length=T)
+      # Self-attention and posittion embedding layers
+      embedding_layer = TokenAndPositionEmbedding(max_seq_len, d_model, dff, False)
+      encoder_block = EncoderLayer(d_model, num_heads, dff)
+      x = embedding_layer(e_outputs)
+      x = encoder_block(x, training, None)
+
+    return x
+
+  def supervisor(X, T):
+    """supervisor function: Generate time-series data.
+
+        Args:
+        - X: pre-generated data from the generator function
+        - T: input time information
+
+        Returns:
+        - E: generated data
+        """
+
+  with tf.variable_scope("supervisor", reuse=tf.AUTO_REUSE):
+    # RNN network
+    e_cell2 = tf.nn.rnn_cell.MultiRNNCell([rnn_cell(module_name, hidden_dim) for _ in range(2)])
+    e_outputs2, e_last_states2 = tf.nn.dynamic_rnn(e_cell2, X, dtype=tf.float32, sequence_length=T)
+    # Residual connection
+    F = e_outputs2 + X
+    E = tf.contrib.layers.fully_connected(F, dim, activation_fn=None)
+  return E
 
   # encoding the original data using the transformer embedder
   H = embedder(X, T)

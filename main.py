@@ -22,4 +22,5 @@ def main():
 	
     np.save('generated_data', generated_data)
 	np.save('generated_padding_mask', generated_padding_mask)
-
+if __name__ == 'main':
+	main()
